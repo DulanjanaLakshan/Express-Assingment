@@ -1,17 +1,22 @@
 const express = require('express')
-
-// export Mongoose
 const mongoose = require('mongoose')
 const app = express()
 const port = 4001
 
-// routing part
 const user = require('./Routes/user')
 
-// mongodb connction part
-const url = 'mongodb://localhost/fbclone'
 
-mongoose.connect(url, {useNewUrlParser:true})
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://fb-clone:XbtCsu9vtS1AkcKh@cluster0.1ie9jw2.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+
+  client.close();
+});
+
+
+mongoose.connect(uri, {useNewUrlParser:true})
 const con = mongoose.connection;
 
 con.on("open", ()=>{
